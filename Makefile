@@ -72,8 +72,8 @@ hott-EB.pdf : hott-EB.tex $(TEXFILES) references.bib cover-lores-front.png cover
 	makeindex hott-EB && \
 	pdflatex hott-EB ;\
         sed -n --in-place -f cleanupduplicates.sed hott-EB.idx && \
+	makeindex hott-EB && \
 	pdflatex hott-EB ; \
-        sed -n --in-place -f cleanupduplicates.sed hott-EB.idx && \
 	echo "HINT: If you think this took a long time you should install latexmk." ;\
 	fi
 
