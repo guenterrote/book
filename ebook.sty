@@ -1,0 +1,123 @@
+\newbox\previouspage
+\newbox\prevvpage
+\newif\ifINDEXX
+\begingroup
+\makeatletter
+\edef \originaloutput{\the\output}
+%\global \output={\modifiedoutput}
+
+
+%\output {% LaTeX2e original, copied from latex.ltx
+\def \templateoutput {{% extra "{" is automatically supplied by TeX
+  \let \par \@@par
+  \ifnum \outputpenalty<-\@M
+    \@specialoutput
+  \else
+    \@makecol
+    \@opcol
+    \@startcolumn
+    \@whilesw \if@fcolmade \fi
+      {\@opcol\@startcolumn}%
+  \fi
+  \ifnum \outputpenalty>-\@Miv
+    \ifdim \@colroom<1.5\baselineskip
+      \ifdim \@colroom<\textheight
+        \@latex@warning@no@line {Text page \thepage\space
+                               contains only floats}%
+        \@emptycol
+%        \if@twocolumn         % these lines were removed between
+%          \if@firstcolumn     % version 1997/06/01 and version 1997/12/01
+%          \else
+%            \@emptycol
+%          \fi
+%        \fi
+      \else
+        \global \vsize \@colroom
+      \fi
+    \else
+      \global \vsize \@colroom
+    \fi
+  \else
+    \global \vsize \maxdimen
+  \fi
+}}
+
+\catcode`\|=0  %   "|" becomes new escape character
+\catcode`\\=\catcode`a
+|gdef|backsl{\}
+|catcode`\=14 %   "\" becomes comment character
+% This means we can skip over \def's without worrying about possibly
+% undefined (and hence unbalanced) \if@fcolmade's or disallowed \newboxes.
+
+|ifx |originaloutput|templateoutput
+|catcode`|\=0
+
+\global\setbox\previouspage=\vbox{}
+
+\global\def \ch@ngepagecontents
+ {\global \setbox\prevvpage=\box\previouspage
+   \global \setbox\previouspage=\copy\@outputbox
+%\showbox\@outputbox\showbox\prevvpage
+   \ifvoid\prevvpage
+   \else
+   \global \setbox\@outputbox \vbox {
+{\box\prevvpage}
+\vskip1,4mm
+\hrule height 0pt
+\if@twocolumn\else \moveright 3,4in\fi
+   \vbox {\hrule width 6in}
+\hrule height 0pt
+\write1{\backsl iffalse}
+\write2{\backsl iffalse}
+\write\@indexfile{BEGIN-IGNORE}
+     \box\@outputbox
+\write1{\backsl fi}
+\write2{\backsl fi}
+\write\@indexfile{END-IGNORE}
+}\fi}
+
+\global \output={\let \par \@@par
+  \ifnum \outputpenalty<-\@M
+    \@specialoutput
+  \else
+    \@makecol
+%\if@twocolumn\else
+   \ch@ngepagecontents
+%\fi
+    \@opcol
+    \@startcolumn
+    \@whilesw \if@fcolmade \fi
+      {\@opcol\@startcolumn}%
+  \fi
+  \ifnum \outputpenalty>-\@Miv
+    \ifdim \@colroom<1.5\baselineskip
+      \ifdim \@colroom<\textheight
+        \@latex@warning@no@line {Text page \thepage\space
+                               contains only floats}%
+        \@emptycol
+      \else
+        \global \vsize \@colroom
+      \fi
+    \else
+      \global \vsize \@colroom
+    \fi
+  \else
+    \global \vsize \maxdimen
+  \fi
+}
+
+   |else
+   |catcode`|\=0
+ %unknown \output routine
+ \errmessage{EBOOK format ebook.sty:
+ I don't know the \output routine of this TeX format.^^J%
+ This is format file \filename, version \fileversion,
+    date \filedate.^^J%
+ I know some LaTeX versions.
+ }
+
+ \global\output=\originaloutput
+      % \originaloutput already contains an extra pair of braces.
+  |fi
+|catcode`|\=0
+\endgroup

@@ -1,0 +1,44 @@
+% -*- mode: LaTeX -*-
+% This is a main LaTeX file for generating the HoTT book
+% for ebook readers. It has low resultion images and small
+% margins. The links are black in this version.
+
+% **** OPTIONS ****
+
+% INCLUDE A COVER
+\input{opt-cover}
+
+% DO NOT INCLUDE A BASTARD TITLE
+\input{opt-no-bastard}
+
+% BLACK & WHITE
+\input{opt-black-white}
+
+% FORMATTING DEPENDENT ON PAPER SIZE
+\input{opt-ebook}
+
+% reduced page width and adusted aspect ratio to 4:3=800:600
+% for common ebook readers
+% reduced margins
+\def\OPTpagesize{4.5in,5.8in}   % Page size
+\def\OPTtopmargin{0in}     % Margin at the top of the page
+ %% headheight is anyway very large.
+\def\OPTbottommargin{1.8in}  % Margin at the bottom of the page
+ %% WHERE THE BEGINNING OF THE NEXT PAGE IS SHOWN
+\def\OPTinnermargin{0.1in}    % Margin on the inner side of the page
+\def\OPTbindingoffset{0.0in} % Extra offset on the inner side
+\def\OPToutermargin{0.15in}   % Margin on the outer side of the page
+
+% FORMATTING OF COVER PAGE
+
+
+% IMAGE FOR HALF-TITLE
+\def\OPThalftorus{torus-lores-bw}
+
+% IMAGE FOR FRONT AND BACK
+\let\OPTfrontimage=\OPTlofrontimage
+\let\OPTbackimage=\OPTlobackimage
+
+% INCLUDE THE ACTUAL MAIN FILE
+\input ebook.sty
+\input{main-EB}

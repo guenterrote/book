@@ -4,7 +4,7 @@
 DEFAULTTOPTEX = hott-online.tex
 
 # Top-level LaTeX files from which HoTT book can be generated
-TOPTEXFILES = $(DEFAULTTOPTEX) hott-ustrade.tex hott-letter.tex hott-a4.tex hott-ebook.tex
+TOPTEXFILES = $(DEFAULTTOPTEX) hott-ustrade.tex hott-letter.tex hott-a4.tex hott-ebook.tex hott-EB.tex
 
 # LaTeX files that actually comprise the book
 # (that is, all of them except configuration)
@@ -63,6 +63,22 @@ $(TOPPDFFILES) : %.pdf : %.tex $(TEXFILES) references.bib cover-lores-front.png 
 	     pdflatex $< ;\
 	     echo "HINT: If you think this took a long time you should install latexmk." ;\
 	fi
+
+hott-EB.pdf : hott-EB.tex $(TEXFILES) references.bib cover-lores-front.png cover-lores-back.png
+	rm  hott-EB.toc
+	pdflatex hott-EB && \
+        sed -n --in-place -f cleanupduplicates.sed hott-EB.idx && \
+	bibtex hott-EB && \
+	makeindex hott-EB && \
+	pdflatex hott-EB ;\
+        sed -n --in-place -f cleanupduplicates.sed hott-EB.idx && \
+	pdflatex hott-EB ; \
+        sed -n --in-place -f cleanupduplicates.sed hott-EB.idx && \
+	echo "HINT: If you think this took a long time you should install latexmk." ;\
+	fi
+
+
+
 
 all default: log-check
 log-check:
