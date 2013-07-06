@@ -61,6 +61,10 @@
    \ifvoid\prevvpage
    \else
    \global \setbox\@outputbox \vbox {
+\if@twocolumn\else
+\vbox to 0pt{\vskip \OPTbottommargin \vskip -3mm
+\moveleft 21mm\vbox {\hrule width 20mm}\vss}\fi
+ % left line mark should perhaps also appear when page is not modified.
 {\box\prevvpage}
 \vskip1,4mm
 \hrule height 0pt
